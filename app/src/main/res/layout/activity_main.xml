@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/mySwipeLayout"
     android:orientation="vertical"
     tools:context="com.example.mahadi.webview.MainActivity">
 
 <LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
     android:id="@+id/linearLayout"
     android:orientation="horizontal"
     android:layout_width="match_parent"
@@ -32,5 +38,6 @@
         android:id="@+id/myWebView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
 </LinearLayout>
+
+</android.support.v4.widget.SwipeRefreshLayout>

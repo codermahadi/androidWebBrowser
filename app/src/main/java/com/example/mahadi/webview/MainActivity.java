@@ -1,6 +1,8 @@
 package com.example.mahadi.webview;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -21,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
     private ImageView imageView;
     private WebView webView;
     private LinearLayout linearLayout;
+    private SwipeRefreshLayout refreshLayout;
+    private String myCurrentUrl;
 
 
     @Override
@@ -28,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        refreshLayout = (SwipeRefreshLayout) findViewById(R.id.mySwipeLayout);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         imageView   = (ImageView) findViewById(R.id.icons);
         webView     = (WebView)  findViewById(R.id.myWebView);
@@ -51,7 +56,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPageFinished(WebView view, String url) {
                 linearLayout.setVisibility(View.GONE);
+                refreshLayout.setRefreshing(false);
                 super.onPageFinished(view, url);
+                myCurrentUrl = url;
             }
         });
         webView.setWebChromeClient(new WebChromeClient(){
@@ -75,6 +82,15 @@ public class MainActivity extends AppCompatActivity {
                 imageView.setImageBitmap(icon);
             }
         });
+
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                webView.reload();
+            }
+        });
+
+
 
     }
 
@@ -102,6 +118,14 @@ public class MainActivity extends AppCompatActivity {
             case R.id.menu_refresh:
                 webView.reload();
                 break;
+
+            case R.id.menu_share:
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                shareIntent.putExtra(Intent.EXTRA_TEXT,myCurrentUrl);
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT,"Copied URL");
+                startActivity(Intent.createChooser(shareIntent,"Share url with your friend"));
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -114,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
         else
             Toast.makeText(this,"Can't go further !",Toast.LENGTH_LONG).show();
     }
+
     @Override
     public void onBackPressed() {
         if (webView.canGoBack())

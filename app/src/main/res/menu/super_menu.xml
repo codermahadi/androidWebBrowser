@@ -19,4 +19,10 @@
         app:showAsAction="always"
         android:icon="@drawable/ic_refresh_black_24dp"
         android:title="Refresh" />
+
+    <item
+        android:id="@+id/menu_share"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_share_black_24dp"
+        android:title="Share" />
 </menu>
