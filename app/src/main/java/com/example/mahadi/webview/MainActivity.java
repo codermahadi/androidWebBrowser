@@ -6,10 +6,12 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -18,6 +20,8 @@ public class MainActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private ImageView imageView;
     private WebView webView;
+    private LinearLayout linearLayout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,13 +31,29 @@ public class MainActivity extends AppCompatActivity {
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         imageView   = (ImageView) findViewById(R.id.icons);
         webView     = (WebView)  findViewById(R.id.myWebView);
+        linearLayout  = (LinearLayout) findViewById(R.id.linearLayout);
+
+
 
 
         progressBar.setMax(100);
         webView.loadUrl("https://www.google.com/");
         webView.getSettings().setJavaScriptEnabled(true);
 
-        webView.setWebViewClient(new WebViewClient());
+        webView.setWebViewClient(new WebViewClient(){
+
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                linearLayout.setVisibility(View.VISIBLE);
+                super.onPageStarted(view, url, favicon);
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                linearLayout.setVisibility(View.GONE);
+                super.onPageFinished(view, url);
+            }
+        });
         webView.setWebChromeClient(new WebChromeClient(){
 
             @Override

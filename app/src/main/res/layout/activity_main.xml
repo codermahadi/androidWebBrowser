@@ -8,6 +8,7 @@
     tools:context="com.example.mahadi.webview.MainActivity">
 
 <LinearLayout
+    android:id="@+id/linearLayout"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="30dp">
